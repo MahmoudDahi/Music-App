@@ -1,12 +1,20 @@
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../main.dart'; // علشان ناخد sharedPreferencesProvider
+part 'auth_local_repository.g.dart';
+
+@Riverpod(keepAlive: true)
+AuthLocalRepository authLocalRepository(Ref ref) {
+  return AuthLocalRepository();
+}
 
 class AuthLocalRepository {
-  final SharedPreferences _sharedPreferences;
+  late SharedPreferences _sharedPreferences;
 
-  AuthLocalRepository(this._sharedPreferences);
+  Future<void> init() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+  }
 
   void setToken(String? token) {
     if (token != null) {
@@ -18,8 +26,3 @@ class AuthLocalRepository {
     return _sharedPreferences.getString('x_auth_token');
   }
 }
-
-final authLocalRepositoryProvider = Provider<AuthLocalRepository>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return AuthLocalRepository(prefs);
-});
