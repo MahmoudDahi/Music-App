@@ -3,5 +3,5 @@ class AppFailure {
   AppFailure([this.message = 'Sorry,an Unexpected error occured !!']);
 
   @override
-  String toString() => 'AppFailure(message: $message)';
+  String toString() => message;
 }
