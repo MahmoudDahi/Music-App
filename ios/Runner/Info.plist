@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+c<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -45,5 +45,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>select music from device to upload it</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>select picture from device to upload it for Music info</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need it for show wave of song selected</string>
+
 </dict>
 </plist>

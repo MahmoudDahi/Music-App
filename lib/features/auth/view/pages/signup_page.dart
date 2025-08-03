@@ -7,7 +7,7 @@ import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/widgets/loader_widget.dart';
 import 'package:client/features/auth/view/pages/login_page.dart';
 import 'package:client/features/auth/view/widgets/auth_gradient_button.dart';
-import 'package:client/features/auth/view/widgets/custom_field.dart';
+import 'package:client/core/widgets/custom_field.dart';
 import 'package:client/features/auth/viewmodel/auth_viewmodel.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
