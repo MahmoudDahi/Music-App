@@ -51,6 +51,10 @@ c<?xml version="1.0" encoding="UTF-8"?>
 	<string>select picture from device to upload it for Music info</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need it for show wave of song selected</string>
-
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

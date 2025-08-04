@@ -80,22 +80,22 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Sign Up.',
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 50),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     CustomField(hintText: 'Name', controller: nameController),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     CustomField(hintText: 'Email', controller: emailController),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     CustomField(
                       hintText: 'Password',
                       controller: passwordController,
                       isObscure: true,
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     AuthGradientButton(
                       buttonText: 'Sign Up',
                       onTap: () async {
@@ -110,7 +110,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         }
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     RichText(
@@ -120,7 +120,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                         children: [
                           TextSpan(
                             text: 'Sign in',
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Pallete.gradient2,
                               fontWeight: FontWeight.bold,
                             ),
@@ -128,7 +128,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                               ..onTap = () {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => LoginPage(),
+                                    builder: (context) => const LoginPage(),
                                   ),
                                   result: false,
                                 );

@@ -37,7 +37,7 @@ class AuthViewModel extends _$AuthViewModel {
         name: name, email: email, password: password);
     final val = switch (res) {
       Left(value: final l) => state = AsyncValue.error(
-          l.toString(),
+          l.message,
           StackTrace.current,
         ),
       Right(value: final r) => state = AsyncValue.data(r),
@@ -52,41 +52,51 @@ class AuthViewModel extends _$AuthViewModel {
     state = const AsyncValue.loading();
     final res =
         await _authRemoteRepository.login(email: email, password: password);
-    final val = switch (res) {
-      Left(value: final l) => state = AsyncValue.error(
-          l.toString(),
+    switch (res) {
+      case Left(value: final l):
+        state = AsyncValue.error(
+          l.message,
           StackTrace.current,
-        ),
-      Right(value: final r) => _loginSuccessfuly(r),
-    };
-    log(val.toString());
+        );
+        break;
+
+      case Right(value: final r):
+        _loginSuccessfuly(r);
+        break;
+    }
   }
 
-  Future<UserModel?> getUserData() async {
+  Future<void> getUserData() async {
     state = const AsyncValue.loading();
     final token = _authLocalRepository.getToken();
     if (token != null) {
       final res = await _authRemoteRepository.getUserData(token: token);
-      final val = switch (res) {
-        Left(value: final l) => state = AsyncValue.error(
-            l.toString(),
+      switch (res) {
+        case Left(value: final l):
+          state = AsyncValue.error(
+            l.message,
             StackTrace.current,
-          ),
-        Right(value: final r) => _getUserDataSuccess(r),
-      };
-      return val.value;
+          );
+          break;
+        case Right(value: final r):
+          _getUserDataSuccess(r);
+          break;
+      }
     }
-    return null;
+    state = AsyncValue.error(
+      'Failed to get user data',
+      StackTrace.current,
+    );
   }
 
-  AsyncValue<UserModel> _getUserDataSuccess(UserModel user) {
+  void _getUserDataSuccess(UserModel user) {
     _currentUserNotifier.addUser(user);
-    return state = AsyncValue.data(user);
+    state = AsyncValue.data(user);
   }
 
-  AsyncValue<UserModel>? _loginSuccessfuly(UserModel user) {
+  void _loginSuccessfuly(UserModel user) {
     _authLocalRepository.setToken(user.token);
     _currentUserNotifier.addUser(user);
-    return state = AsyncValue.data(user);
+    state = AsyncValue.data(user);
   }
 }
