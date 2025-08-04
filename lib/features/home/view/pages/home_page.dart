@@ -25,10 +25,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             flex: 9,
             child: pages[selectIndex],
           ),
-          const Expanded(
-            flex: 1,
-            child: SongSlabWidget(),
-          ),
+          const SongSlabWidget(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
