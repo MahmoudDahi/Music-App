@@ -15,13 +15,14 @@ class AppTheme {
   static final darkThemeMode = ThemeData.dark().copyWith(
     scaffoldBackgroundColor: Pallete.backgroundColor,
     inputDecorationTheme: InputDecorationTheme(
-      contentPadding: EdgeInsets.all(25),
+      contentPadding: const EdgeInsets.all(25),
       enabledBorder: _border(Pallete.borderColor),
       focusedBorder: _border(Pallete.gradient2),
       errorBorder: _border(Pallete.errorColor),
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Pallete.backgroundColor,
     ),
+    appBarTheme: const AppBarTheme(backgroundColor: Pallete.backgroundColor),
   );
 }

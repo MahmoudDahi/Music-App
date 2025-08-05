@@ -1,5 +1,6 @@
 import 'package:client/core/providers/current_song_notifier.dart';
 import 'package:client/core/utils.dart';
+import 'package:client/features/home/view/widgets/music_player_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,13 +17,43 @@ class SongSlabWidget extends ConsumerWidget {
     if (currentSong == null) {
       return const SizedBox();
     }
-    return InkWell(
-      onTap: () {},
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const MusicPlayerWidget(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              final tween = Tween<Offset>(
+                begin: const Offset(0, 1),
+                end: Offset.zero,
+              ).chain(
+                CurveTween(
+                  curve: Curves.easeIn,
+                ),
+              );
+              final offsetAnimation = animation.drive(tween);
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
+          ),
+        );
+      },
       child: Stack(
         children: [
           Container(
             decoration: BoxDecoration(
-              color: hexToColor(currentSong.hex_code),
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  hexToColor(currentSong.hex_code),
+                  const Color(0xff121212),
+                ],
+              ),
               borderRadius: BorderRadius.circular(4),
             ),
             height: 70,
@@ -31,14 +62,17 @@ class SongSlabWidget extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 60,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      image: DecorationImage(
-                        image: NetworkImage(currentSong.thumbnail_url),
-                        fit: BoxFit.cover,
+                  Hero(
+                    tag: 'music-image',
+                    child: Container(
+                      width: 60,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        image: DecorationImage(
+                          image: NetworkImage(currentSong.thumbnail_url),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),

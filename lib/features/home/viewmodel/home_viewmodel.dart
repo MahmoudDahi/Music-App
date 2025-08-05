@@ -50,10 +50,13 @@ class HomeViewModel extends _$HomeViewModel {
       token: ref.read(currentUserNotifierProvider)!.token,
     );
 
-    final val = switch (res) {
-      Left(value: final l) => state =
-          AsyncValue.error(l.message, StackTrace.current),
-      Right(value: final r) => state = AsyncValue.data(r)
-    };
+    switch (res) {
+      case Left(value: final l):
+        state = AsyncValue.error(l.message, StackTrace.current);
+        break;
+      case Right(value: final r):
+        state = AsyncValue.data(r);
+        break;
+    }
   }
 }

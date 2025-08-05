@@ -48,4 +48,12 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
     _isPlaying = !_isPlaying;
     state = state!.copyWith(hex_code: state!.hex_code);
   }
+
+  void seek(double val) {
+    _audioPlayer!.seek(
+      Duration(
+        milliseconds: (val * _audioPlayer!.duration!.inMilliseconds).toInt(),
+      ),
+    );
+  }
 }
