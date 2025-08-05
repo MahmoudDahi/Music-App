@@ -1,5 +1,6 @@
 import 'package:client/features/home/model/song_model.dart';
 import 'package:client/features/home/repositories/home_local_repository.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -25,6 +26,13 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
     _audioPlayer = AudioPlayer();
     final audioSource = AudioSource.uri(
       Uri.parse(song.song_url),
+      tag: MediaItem(
+        id: song.id,
+        artist: song.artist,
+        title: song.song_name,
+        duration: _audioPlayer!.duration,
+        artUri: Uri.parse(song.thumbnail_url),
+      ),
     );
     await _audioPlayer!.setAudioSource(audioSource);
     _audioPlayer!.playerStateStream.listen(

@@ -44,7 +44,8 @@ class SongSlabWidget extends ConsumerWidget {
       },
       child: Stack(
         children: [
-          Container(
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topRight,
