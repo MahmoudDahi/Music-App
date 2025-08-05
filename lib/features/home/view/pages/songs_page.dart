@@ -10,11 +10,70 @@ class SongsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final recentPlaySongs =
+        ref.watch(homeViewModelProvider.notifier).getRecentlyPlaySongs();
+    final songNotifier = ref.watch(currentSongNitifierProvider.notifier);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              height: 280,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 3,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                ),
+                itemCount: recentPlaySongs.length,
+                itemBuilder: (context, index) {
+                  final song = recentPlaySongs[index];
+                  return GestureDetector(
+                    onTap: () => songNotifier.updateSong(song),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Pallete.borderColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 56,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(7),
+                                bottomLeft: Radius.circular(7),
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(song.thumbnail_url),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              song.song_name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 1,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(

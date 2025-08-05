@@ -56,7 +56,7 @@ class MusicPlayerWidget extends ConsumerWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      song.thumbnail_url, // غيّر المسار حسب الصورة عندك
+                      song.thumbnail_url,
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
