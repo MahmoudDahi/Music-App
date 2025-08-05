@@ -193,12 +193,10 @@ class MusicPlayerWidget extends ConsumerWidget {
                     height: 10,
                   ),
 
-                  // أزرار التحكم
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
+                      Expanded(
                         child: IconButton(
                           icon: Image.asset(
                             'assets/images/shuffle.png',
@@ -207,28 +205,31 @@ class MusicPlayerWidget extends ConsumerWidget {
                           onPressed: () {},
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: IconButton(
-                          icon: Image.asset(
-                            'assets/images/previus-song.png',
-                            color: Pallete.whiteColor,
+                      Expanded(
+                        child: Center(
+                          child: IconButton(
+                            icon: Image.asset(
+                              'assets/images/previus-song.png',
+                              color: Pallete.whiteColor,
+                            ),
+                            onPressed: () {},
                           ),
-                          onPressed: () {},
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          songNotifier.isSongPlaying()
-                              ? CupertinoIcons.pause_circle_fill
-                              : CupertinoIcons.play_circle_fill,
-                          color: Pallete.whiteColor,
+                      Expanded(
+                        flex: 2,
+                        child: IconButton(
+                          icon: Icon(
+                            songNotifier.isSongPlaying()
+                                ? CupertinoIcons.pause_circle_fill
+                                : CupertinoIcons.play_circle_fill,
+                            color: Pallete.whiteColor,
+                            size: 80,
+                          ),
+                          onPressed: songNotifier.playAndPause,
                         ),
-                        iconSize: 80,
-                        onPressed: songNotifier.playAndPause,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
+                      Expanded(
                         child: IconButton(
                           icon: Image.asset(
                             'assets/images/next-song.png',
@@ -237,16 +238,13 @@ class MusicPlayerWidget extends ConsumerWidget {
                           onPressed: () {},
                         ),
                       ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: IconButton(
-                            icon: Image.asset(
-                              'assets/images/repeat.png',
-                              color: Pallete.whiteColor,
-                            ),
-                            onPressed: () {},
+                      Expanded(
+                        child: IconButton(
+                          icon: Image.asset(
+                            'assets/images/repeat.png',
+                            color: Pallete.whiteColor,
                           ),
+                          onPressed: () {},
                         ),
                       ),
                     ],
