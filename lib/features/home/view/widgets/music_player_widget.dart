@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/providers/current_user_notifier.dart';
+import '../../viewmodel/home_viewmodel.dart';
+
 class MusicPlayerWidget extends ConsumerWidget {
   const MusicPlayerWidget({super.key});
 
@@ -12,6 +15,11 @@ class MusicPlayerWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final song = ref.watch(currentSongNitifierProvider);
     final songNotifier = ref.read(currentSongNitifierProvider.notifier);
+    final userFavorite = ref.watch(
+      currentUserNotifierProvider.select(
+        (value) => value!.favorites,
+      ),
+    );
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
@@ -99,12 +107,23 @@ class MusicPlayerWidget extends ConsumerWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          CupertinoIcons.suit_heart,
+                        onPressed: () async {
+                          await ref
+                              .read(homeViewModelProvider.notifier)
+                              .favoriteSongUser(songID: song.id);
+                        },
+                        icon: Icon(
+                          userFavorite
+                                  .where(
+                                    (fav) => fav.song_id == song.id,
+                                  )
+                                  .toList()
+                                  .isNotEmpty
+                              ? CupertinoIcons.heart_fill
+                              : CupertinoIcons.suit_heart,
                           color: Pallete.whiteColor,
                         ),
-                      )
+                      ),
                     ],
                   ),
                   const SizedBox(

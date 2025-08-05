@@ -6,7 +6,7 @@ part of 'home_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$getSongsListHash() => r'036087ea68a11e6aad576c76087e18c8f9fbde7f';
+String _$getSongsListHash() => r'81aaed0c1ac07897cdbe31426a09cc68c37ecde0';
 
 /// See also [getSongsList].
 @ProviderFor(getSongsList)
@@ -23,7 +23,26 @@ final getSongsListProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef GetSongsListRef = AutoDisposeFutureProviderRef<List<SongModel>>;
-String _$homeViewModelHash() => r'e92a7f73904a77726edee54da7281741ecd030c4';
+String _$getFavoriteSongsListHash() =>
+    r'aed3b86bb90fc8a0a758d5d12d8d8bec09f28240';
+
+/// See also [getFavoriteSongsList].
+@ProviderFor(getFavoriteSongsList)
+final getFavoriteSongsListProvider =
+    AutoDisposeFutureProvider<List<SongModel>>.internal(
+  getFavoriteSongsList,
+  name: r'getFavoriteSongsListProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getFavoriteSongsListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetFavoriteSongsListRef = AutoDisposeFutureProviderRef<List<SongModel>>;
+String _$homeViewModelHash() => r'02a99b4e3efbe5fabbf1d28a5da0f6fc597069e2';
 
 /// See also [HomeViewModel].
 @ProviderFor(HomeViewModel)

@@ -6,6 +6,9 @@ import 'package:client/features/home/viewmodel/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../widgets/latest_song_widget.dart';
+import '../widgets/recent_song_widget.dart';
+
 class SongsPage extends ConsumerWidget {
   const SongsPage({super.key});
 
@@ -40,7 +43,7 @@ class SongsPage extends ConsumerWidget {
               padding: const EdgeInsets.only(
                 left: 16,
                 right: 16,
-                bottom: 36,
+                bottom: 16,
                 top: 36,
               ),
               height: 280,
@@ -54,51 +57,7 @@ class SongsPage extends ConsumerWidget {
                 itemCount: recentPlaySongs.length,
                 itemBuilder: (context, index) {
                   final song = recentPlaySongs[index];
-                  return GestureDetector(
-                    onTap: () {
-                      ref
-                          .read(currentSongNitifierProvider.notifier)
-                          .updateSong(song);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(right: 20),
-                      decoration: BoxDecoration(
-                        color: Pallete.borderColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 56,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(7),
-                                bottomLeft: Radius.circular(7),
-                              ),
-                              image: DecorationImage(
-                                image: NetworkImage(song.thumbnail_url),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              song.song_name,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              maxLines: 1,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+                  return RecentSongWidget(song: song);
                 },
               ),
             ),
@@ -122,62 +81,7 @@ class SongsPage extends ConsumerWidget {
                     itemCount: songs.length,
                     itemBuilder: (context, index) {
                       final song = songs[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: InkWell(
-                          onTap: () {
-                            ref
-                                .read(currentSongNitifierProvider.notifier)
-                                .updateSong(song);
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 180,
-                                width: 180,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      song.thumbnail_url,
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              SizedBox(
-                                width: 180,
-                                child: Text(
-                                  song.song_name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 180,
-                                child: Text(
-                                  song.artist,
-                                  style: const TextStyle(
-                                    color: Pallete.subtitleText,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                      return LatestSongWidget(song: song);
                     },
                   ),
                 );
