@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:client/core/providers/current_user_notifier.dart';
 import 'package:client/core/models/user_model.dart';
 import 'package:client/features/auth/repositories/auth_local_repository.dart';
@@ -35,14 +33,17 @@ class AuthViewModel extends _$AuthViewModel {
     state = const AsyncValue.loading();
     final res = await _authRemoteRepository.signUp(
         name: name, email: email, password: password);
-    final val = switch (res) {
-      Left(value: final l) => state = AsyncValue.error(
+    switch (res) {
+      case Left(value: final l):
+        state = AsyncValue.error(
           l.message,
           StackTrace.current,
-        ),
-      Right(value: final r) => state = AsyncValue.data(r),
-    };
-    log(val.value.toString());
+        );
+        break;
+      case Right(value: final r):
+        state = AsyncValue.data(r);
+        break;
+    }
   }
 
   Future<void> loginUser({
@@ -92,7 +93,6 @@ class AuthViewModel extends _$AuthViewModel {
   void _getUserDataSuccess(UserModel user) {
     _currentUserNotifier.addUser(user);
     state = AsyncValue.data(user);
-    log(user.toString());
   }
 
   void _loginSuccessfuly(UserModel user) {

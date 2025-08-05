@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:client/core/theme/app_pallete.dart';
@@ -40,7 +39,6 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
   void selectSong() async {
     final pickedSong = await pickAudio();
     if (pickedSong != null) {
-      log(pickedSong.path);
       setState(() {
         selectedSongFile = pickedSong;
       });
@@ -167,7 +165,9 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
                           ColorPickerType.wheel: true,
                         },
                         color: selectedColor,
-                        onColorChanged: (value) {},
+                        onColorChanged: (value) {
+                          selectedColor = value;
+                        },
                       )
                     ],
                   ),
