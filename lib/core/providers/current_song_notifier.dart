@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:client/features/home/model/song_model.dart';
 import 'package:client/features/home/repositories/home_local_repository.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -20,6 +18,8 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
   AudioPlayer? _audioPlayer;
   bool _isPlaying = false;
   RepeatMode _repeatMode = RepeatMode.off;
+  bool _isShuffle = false;
+  late int _currentSongIndex;
 
   @override
   SongModel? build() {
@@ -29,6 +29,7 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
   }
 
   bool isSongPlaying() => _isPlaying;
+  bool isSongShuffle() => _isShuffle;
   AudioPlayer? audioPlayer() => _audioPlayer;
   RepeatMode? repeatMode() => _repeatMode;
 
@@ -50,14 +51,21 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
         artUri: Uri.parse(song.thumbnail_url),
       ),
     );
+    _currentSongIndex = 0;
     await _audioPlayer!.setAudioSource(audioSource);
+    _audioPlayer!.currentIndexStream.listen(
+      (index) {
+        if (index != null &&
+            (index > _currentSongIndex ||
+                ((index == 0) && index < _currentSongIndex))) {
+          _currentSongIndex = index;
+          _setNewSong();
+        }
+      },
+    );
     _audioPlayer!.playerStateStream.listen(
-      (event) {
-        log(event.processingState.toString());
-
-        if (event.processingState == ProcessingState.completed) {
-          log('in Completed ');
-
+      (audioState) {
+        if (audioState.processingState == ProcessingState.completed) {
           _audioPlayer!.seek(Duration.zero);
           _audioPlayer!.pause();
           _isPlaying = false;
@@ -107,6 +115,9 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
 
   void addSongToQueue(SongModel song) {
     if (_audioPlayer?.playing == true) {
+      if (_isSongExistOnQueue(song)) {
+        return;
+      }
       final audioSource = AudioSource.uri(
         Uri.parse(song.song_url),
         tag: MediaItem(
@@ -128,18 +139,48 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
     }
   }
 
+  bool _isSongExistOnQueue(SongModel song) {
+    if (_audioPlayer!.audioSources.isNotEmpty) {
+      return _audioPlayer!.audioSources.any((audoSource) {
+        if (audoSource is UriAudioSource) {
+          final MediaItem mediaItem = audoSource.tag as MediaItem;
+          return mediaItem.id == song.id;
+        }
+        return false;
+      });
+    }
+    return false;
+  }
+
+  void selectSongFromQueue(int songIndex) {
+    _audioPlayer!.seek(Duration.zero, index: songIndex);
+  }
+
   List<SongModel> getSongQueue() {
+    if (_audioPlayer!.audioSources.isNotEmpty) {
+      final List<SongModel> songs = [];
+      for (final source in _audioPlayer!.audioSources) {
+        if (source is UriAudioSource) {
+          songs.add(_convertAudioSourceToSongModel(source: source));
+        }
+      }
+      return songs;
+    }
     return [];
   }
 
   void playNextSong() async {
     await _audioPlayer!.seekToNext();
-    _setNewSong();
   }
 
   void playPreviousSong() async {
     await _audioPlayer!.seekToPrevious();
-    _setNewSong();
+  }
+
+  void shuffleSong() async {
+    _isShuffle = !_isShuffle;
+    await _audioPlayer!.setShuffleModeEnabled(_isShuffle);
+    state = state!.copyWith(hex_code: state!.hex_code);
   }
 
   void _setNewSong() {
@@ -148,18 +189,24 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
       final currentSource =
           sequence[_audioPlayer!.currentIndex!] as AudioSource;
       if (currentSource is UriAudioSource) {
-        final mediaItem = currentSource.tag as MediaItem;
+        state = _convertAudioSourceToSongModel(source: currentSource);
         _audioPlayer!.play();
         _isPlaying = true;
-        state = SongModel(
-          id: mediaItem.id,
-          song_name: mediaItem.title,
-          artist: mediaItem.artist ?? '',
-          song_url: (currentSource).uri.toString(),
-          thumbnail_url: mediaItem.artUri?.toString() ?? '',
-          hex_code: mediaItem.extras?['hex'] ?? '121212',
-        );
       }
     }
+  }
+
+  SongModel _convertAudioSourceToSongModel({
+    required UriAudioSource source,
+  }) {
+    final mediaItem = source.tag as MediaItem;
+    return SongModel(
+      id: mediaItem.id,
+      song_name: mediaItem.title,
+      artist: mediaItem.artist ?? '',
+      song_url: (source).uri.toString(),
+      thumbnail_url: mediaItem.artUri?.toString() ?? '',
+      hex_code: mediaItem.extras?['hex'] ?? '121212',
+    );
   }
 }

@@ -199,10 +199,12 @@ class MusicPlayerWidget extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: songNotifier.shuffleSong,
                           icon: Image.asset(
                             'assets/images/shuffle.png',
-                            color: Pallete.whiteColor,
+                            color: songNotifier.isSongShuffle()
+                                ? Pallete.whiteColor
+                                : Pallete.cardColor,
                           ),
                         ),
                       ),

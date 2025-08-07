@@ -40,8 +40,9 @@ class SongQueueWidget extends ConsumerWidget {
               style: const TextStyle(color: Pallete.subtitleText),
             ),
             onTap: () {
-              ref.read(currentSongNitifierProvider.notifier).updateSong(song);
-              Navigator.pop(context);
+              ref
+                  .read(currentSongNitifierProvider.notifier)
+                  .selectSongFromQueue(index);
             },
           );
         },
