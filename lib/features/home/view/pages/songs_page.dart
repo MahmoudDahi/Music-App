@@ -48,10 +48,11 @@ class SongsPage extends ConsumerWidget {
                 child: IconButton(
                   onPressed: () {
                     ref.read(currentUserNotifierProvider.notifier).userLogout();
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => const SignupPage(),
                       ),
+                      result: false,
                     );
                   },
                   icon: const Icon(
