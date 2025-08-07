@@ -59,23 +59,38 @@ The backend for this music application is built using FastAPI, a high-performanc
 
 ## Screenshots
 
-### Homepage
-![Homepage](assets/homepage.png)
-
-### Library Page
-![Library Page](assets/librarypage.png)
-
-### Media Player
-![Media Player](assets/mediaPlayer.png)
-
-### Playlist
-![Playlist](assets/playlist.png)
-
-### Signup Page
-![Signup Page](assets/signup_page.png)
-
-### Login Page
-![Login Page](assets/login_page.png)
+<table>
+  <tr>
+    <td>
+      <h3>Login Page</h3>
+      <img src="assets/login_page.png" alt="Login Page" width="300">
+    </td>
+    <td>
+      <h3>Signup Page</h3>
+      <img src="assets/signup_page.png" alt="Signup Page" width="300">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h3>Homepage</h3>
+      <img src="assets/homepage.png" alt="Homepage" width="300">
+    </td>
+    <td>
+      <h3>Library Page</h3>
+      <img src="assets/librarypage.png" alt="Library Page" width="300">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h3>Media Player</h3>
+      <img src="assets/mediaPlayer.png" alt="Media Player" width="300">
+    </td>
+    <td>
+      <h3>Playlist</h3>
+      <img src="assets/playlist.png" alt="Playlist" width="300">
+    </td>
+  </tr>
+</table>
 
 ## Getting Started
 1. Clone the repository
