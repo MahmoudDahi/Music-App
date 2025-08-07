@@ -100,8 +100,4 @@ class AuthViewModel extends _$AuthViewModel {
     _currentUserNotifier.addUser(user);
     state = AsyncValue.data(user);
   }
-
-  void userLogout() {
-    _authLocalRepository.removeToken();
-  }
 }

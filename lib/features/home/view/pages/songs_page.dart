@@ -1,7 +1,9 @@
 import 'package:client/core/providers/current_song_notifier.dart';
+import 'package:client/core/providers/current_user_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils.dart';
 import 'package:client/core/widgets/loader_widget.dart';
+import 'package:client/features/auth/view/pages/signup_page.dart';
 import 'package:client/features/home/viewmodel/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,6 +41,27 @@ class SongsPage extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16, top: 16),
+                child: IconButton(
+                  onPressed: () {
+                    ref.read(currentUserNotifierProvider.notifier).userLogout();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SignupPage(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+              ),
+            ),
             Container(
               padding: const EdgeInsets.only(
                 left: 16,

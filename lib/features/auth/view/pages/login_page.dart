@@ -65,70 +65,81 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       appBar: AppBar(),
       body: isLoading
           ? const LoaderWidget()
-          : Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Sign In.',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 50),
-                    ),
-                    const SizedBox(height: 30),
-                    CustomField(hintText: 'Email', controller: emailController),
-                    const SizedBox(height: 15),
-                    CustomField(
-                      hintText: 'Password',
-                      controller: passwordController,
-                      isObscure: true,
-                    ),
-                    const SizedBox(height: 15),
-                    AuthGradientButton(
-                      buttonText: 'Sign In',
-                      onTap: () async {
-                        if (formKey.currentState!.validate()) {
-                          await ref
-                              .read(authViewModelProvider.notifier)
-                              .loginUser(
-                                  email: emailController.text,
-                                  password: passwordController.text);
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.titleMedium,
-                        text: 'Don\'t have an account? ',
+          : LayoutBuilder(builder: (context, constraines) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraines.maxHeight,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextSpan(
-                            text: 'Sign up',
-                            style: const TextStyle(
-                              color: Pallete.gradient2,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignupPage(),
+                          const Text(
+                            'Sign In.',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 50),
+                          ),
+                          const SizedBox(height: 30),
+                          CustomField(
+                              hintText: 'Email', controller: emailController),
+                          const SizedBox(height: 15),
+                          CustomField(
+                            hintText: 'Password',
+                            controller: passwordController,
+                            isObscure: true,
+                          ),
+                          const SizedBox(height: 15),
+                          AuthGradientButton(
+                            buttonText: 'Sign In',
+                            onTap: () async {
+                              if (formKey.currentState!.validate()) {
+                                await ref
+                                    .read(authViewModelProvider.notifier)
+                                    .loginUser(
+                                        email: emailController.text,
+                                        password: passwordController.text);
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.titleMedium,
+                              text: 'Don\'t have an account? ',
+                              children: [
+                                TextSpan(
+                                  text: 'Sign up',
+                                  style: const TextStyle(
+                                    color: Pallete.gradient2,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  result: false,
-                                );
-                              },
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SignupPage(),
+                                        ),
+                                        result: false,
+                                      );
+                                    },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
     );
   }
 }
