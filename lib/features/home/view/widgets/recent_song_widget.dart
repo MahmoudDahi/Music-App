@@ -17,7 +17,7 @@ class RecentSongWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () {
-        ref.read(currentSongNitifierProvider.notifier).updateSong(song);
+        ref.read(currentSongNitifierProvider.notifier).addSongToQueue(song);
       },
       child: Container(
         padding: const EdgeInsets.only(right: 20),

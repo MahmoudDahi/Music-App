@@ -49,6 +49,7 @@ Future<List<SongModel>> getFavoriteSongsList(Ref ref) async {
 class HomeViewModel extends _$HomeViewModel {
   late HomeRemoteRepository _homeRemoteRepository;
   late HomeLocalRepository _homeLocalRepository;
+
   @override
   AsyncValue? build() {
     _homeRemoteRepository = ref.watch(homeRemoteRepositoryProvider);

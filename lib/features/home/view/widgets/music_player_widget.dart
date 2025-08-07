@@ -1,6 +1,7 @@
 import 'package:client/core/providers/current_song_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/utils.dart';
+import 'package:client/features/home/view/widgets/song_queue_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -198,21 +199,21 @@ class MusicPlayerWidget extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: IconButton(
+                          onPressed: () {},
                           icon: Image.asset(
                             'assets/images/shuffle.png',
                             color: Pallete.whiteColor,
                           ),
-                          onPressed: () {},
                         ),
                       ),
                       Expanded(
-                        child: Center(
-                          child: IconButton(
-                            icon: Image.asset(
-                              'assets/images/previus-song.png',
-                              color: Pallete.whiteColor,
-                            ),
-                            onPressed: () {},
+                        child: IconButton(
+                          onPressed: () {
+                            songNotifier.playPreviousSong();
+                          },
+                          icon: Image.asset(
+                            'assets/images/previus-song.png',
+                            color: Pallete.whiteColor,
                           ),
                         ),
                       ),
@@ -229,22 +230,30 @@ class MusicPlayerWidget extends ConsumerWidget {
                           onPressed: songNotifier.playAndPause,
                         ),
                       ),
-                      Expanded(
-                        child: IconButton(
-                          icon: Image.asset(
-                            'assets/images/next-song.png',
-                            color: Pallete.whiteColor,
-                          ),
-                          onPressed: () {},
+                      IconButton(
+                        onPressed: () {
+                          songNotifier.playNextSong();
+                        },
+                        icon: Image.asset(
+                          'assets/images/next-song.png',
+                          color: Pallete.whiteColor,
                         ),
                       ),
                       Expanded(
                         child: IconButton(
-                          icon: Image.asset(
-                            'assets/images/repeat.png',
-                            color: Pallete.whiteColor,
+                          onPressed: () {
+                            songNotifier.toggleRepeat();
+                          },
+                          icon: Icon(
+                            songNotifier.repeatMode() == RepeatMode.off
+                                ? Icons.repeat
+                                : songNotifier.repeatMode() == RepeatMode.all
+                                    ? Icons.repeat
+                                    : Icons.repeat_one,
+                            color: songNotifier.repeatMode() != RepeatMode.off
+                                ? Pallete.whiteColor
+                                : Pallete.subtitleText,
                           ),
-                          onPressed: () {},
                         ),
                       ),
                     ],
@@ -272,7 +281,13 @@ class MusicPlayerWidget extends ConsumerWidget {
                             'assets/images/playlist.png',
                             color: Pallete.whiteColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const SongQueueWidget(),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],

@@ -19,7 +19,7 @@ class LatestSongWidget extends ConsumerWidget {
       padding: const EdgeInsets.only(left: 8),
       child: InkWell(
         onTap: () {
-          ref.read(currentSongNitifierProvider.notifier).updateSong(song);
+          ref.read(currentSongNitifierProvider.notifier).addSongToQueue(song);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
