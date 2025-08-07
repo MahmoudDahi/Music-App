@@ -15,6 +15,7 @@ A Flutter-based music application designed to provide a seamless user experience
 ## Technologies Used
 - **Flutter**: Google's UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
 - **Dart**: The programming language used by Flutter.
+- **FastAPI**: A modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
 - **fpdart**: A functional programming library for Dart, used for handling asynchronous operations and error management with `Either` types.
 - **http**: A popular package for making HTTP requests to interact with RESTful APIs.
 - **Riverpod**: A robust and flexible state management solution for Flutter, used here to implement the ViewModel pattern.
@@ -40,11 +41,35 @@ This project follows the MVVM architectural pattern to ensure a clear separation
 
 This separation allows for independent development of UI and business logic, making the codebase more modular and easier to scale.
 
+## State Management: Riverpod
 
+Riverpod is utilized throughout the application for robust and scalable state management. It provides a compile-safe way to manage application state, making it easier to test and maintain. Key benefits include:
+- **Compile-time safety**: Catches errors at compile time rather than runtime.
+- **Testability**: Makes it easy to test individual providers and their associated logic.
+- **Flexibility**: Supports various state management patterns, including MVVM.
+- **Performance**: Optimizes rebuilds by only updating widgets that depend on changed state.
 
+## Backend API: FastAPI (Python)
 
+The backend for this music application is built using FastAPI, a high-performance web framework for building APIs with Python. FastAPI was chosen for its:
+- **Speed**: Very high performance, on par with NodeJS and Go (thanks to Starlette and Pydantic).
+- **Ease of use**: Designed to be easy to use and learn, with excellent documentation.
+- **Robustness**: Automatic validation and serialization of data using Pydantic.
+- **Asynchronous support**: Built on top of ASGI, allowing for asynchronous operations.
 
 ## Screenshots
+
+### Homepage
+![Homepage](assets/homepage.png)
+
+### Library Page
+![Library Page](assets/librarypage.png)
+
+### Media Player
+![Media Player](assets/mediaPlayer.png)
+
+### Playlist
+![Playlist](assets/playlist.png)
 
 ### Signup Page
 ![Signup Page](assets/signup_page.png)

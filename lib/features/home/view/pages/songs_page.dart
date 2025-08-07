@@ -75,7 +75,7 @@ class SongsPage extends ConsumerWidget {
               data: (songs) {
                 return SizedBox(
                   width: double.infinity,
-                  height: 260,
+                  height: 240,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: songs.length,

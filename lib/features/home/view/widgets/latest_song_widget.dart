@@ -18,6 +18,7 @@ class LatestSongWidget extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 8),
       child: InkWell(
+        borderRadius: BorderRadius.circular(8),
         onTap: () {
           ref.read(currentSongNitifierProvider.notifier).addSongToQueue(song);
         },
