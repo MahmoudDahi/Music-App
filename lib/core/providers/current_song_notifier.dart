@@ -30,6 +30,7 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
 
   bool isSongPlaying() => _isPlaying;
   bool isSongShuffle() => _isShuffle;
+  int getCurrentSongIndex() => _currentSongIndex;
   AudioPlayer? audioPlayer() => _audioPlayer;
   RepeatMode? repeatMode() => _repeatMode;
 
@@ -55,14 +56,13 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
     await _audioPlayer!.setAudioSource(audioSource);
     _audioPlayer!.currentIndexStream.listen(
       (index) {
-        if (index != null &&
-            (index > _currentSongIndex ||
-                ((index == 0) && index < _currentSongIndex))) {
+        if (index != null && index != _currentSongIndex) {
           _currentSongIndex = index;
           _setNewSong();
         }
       },
     );
+
     _audioPlayer!.playerStateStream.listen(
       (audioState) {
         if (audioState.processingState == ProcessingState.completed) {
@@ -73,6 +73,7 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
         }
       },
     );
+
     _homeLocalRepository.uploadSong(song);
     _audioPlayer!.play();
     _isPlaying = true;
@@ -152,8 +153,8 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
     return false;
   }
 
-  void selectSongFromQueue(int songIndex) {
-    _audioPlayer!.seek(Duration.zero, index: songIndex);
+  void selectSongFromQueue(int songIndex) async {
+    await _audioPlayer!.seek(Duration.zero, index: songIndex);
   }
 
   List<SongModel> getSongQueue() {

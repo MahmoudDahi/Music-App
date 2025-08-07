@@ -170,7 +170,7 @@ class MusicPlayerWidget extends ConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${position?.inMinutes}:${(position?.inSeconds ?? 0) < 9 ? '0${position?.inSeconds}' : '${position?.inSeconds}'}',
+                                  '${position?.inMinutes}:${(position?.inSeconds ?? 0) < 10 ? '0${position?.inSeconds}' : '${position?.inSeconds}'}',
                                   style: const TextStyle(
                                     color: Pallete.subtitleText,
                                     fontSize: 13,
@@ -178,7 +178,7 @@ class MusicPlayerWidget extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  '${duration?.inMinutes}:${(duration?.inSeconds ?? 0) < 9 ? '0${duration?.inSeconds}' : '${duration?.inSeconds}'}',
+                                  '${duration?.inMinutes}:${(duration?.inSeconds ?? 0) < 10 ? '0${duration?.inSeconds}' : '${duration?.inSeconds}'}',
                                   style: const TextStyle(
                                     color: Pallete.subtitleText,
                                     fontSize: 13,
@@ -204,7 +204,7 @@ class MusicPlayerWidget extends ConsumerWidget {
                             'assets/images/shuffle.png',
                             color: songNotifier.isSongShuffle()
                                 ? Pallete.whiteColor
-                                : Pallete.cardColor,
+                                : Pallete.whiteColor.withAlpha(100),
                           ),
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:client/core/providers/current_song_notifier.dart';
 import 'package:client/core/theme/app_pallete.dart';
+import 'package:client/core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,11 +11,12 @@ class SongQueueWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final songsInQueue =
         ref.watch(currentSongNitifierProvider.notifier).getSongQueue();
+    final songNotifier = ref.watch(currentSongNitifierProvider.notifier);
 
     return Scaffold(
       backgroundColor: Pallete.backgroundColor,
       appBar: AppBar(
-        title: const Text('Queue'),
+        title: const Text('Playlist'),
         backgroundColor: Pallete.backgroundColor,
       ),
       body: ListView.builder(
@@ -22,6 +24,9 @@ class SongQueueWidget extends ConsumerWidget {
         itemBuilder: (context, index) {
           final song = songsInQueue[index];
           return ListTile(
+            tileColor: songNotifier.getCurrentSongIndex() == index
+                ? hexToColor(song.hex_code)
+                : null,
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Image.network(
