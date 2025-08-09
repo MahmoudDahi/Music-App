@@ -53,15 +53,6 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
       ),
     );
     _currentSongIndex = 0;
-    await _audioPlayer!.setAudioSource(audioSource);
-    _audioPlayer!.currentIndexStream.listen(
-      (index) {
-        if (index != null && index != _currentSongIndex) {
-          _currentSongIndex = index;
-          _setNewSong();
-        }
-      },
-    );
 
     _audioPlayer!.playerStateStream.listen(
       (audioState) {
@@ -70,6 +61,16 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
           _audioPlayer!.pause();
           _isPlaying = false;
           state = state!.copyWith(hex_code: state!.hex_code);
+        }
+      },
+    );
+
+    await _audioPlayer!.setAudioSource(audioSource);
+    _audioPlayer!.currentIndexStream.listen(
+      (index) {
+        if (index != null && index != _currentSongIndex) {
+          _currentSongIndex = index;
+          _setNewSong();
         }
       },
     );
@@ -181,6 +182,9 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
   void shuffleSong() async {
     _isShuffle = !_isShuffle;
     await _audioPlayer!.setShuffleModeEnabled(_isShuffle);
+    if (_isShuffle) {
+      await _audioPlayer!.shuffle();
+    }
     state = state!.copyWith(hex_code: state!.hex_code);
   }
 
@@ -190,9 +194,9 @@ class CurrentSongNitifier extends _$CurrentSongNitifier {
       final currentSource =
           sequence[_audioPlayer!.currentIndex!] as AudioSource;
       if (currentSource is UriAudioSource) {
-        state = _convertAudioSourceToSongModel(source: currentSource);
         _audioPlayer!.play();
         _isPlaying = true;
+        state = _convertAudioSourceToSongModel(source: currentSource);
       }
     }
   }
