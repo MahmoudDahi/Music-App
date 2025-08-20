@@ -1,7 +1,5 @@
 # Music App
 
-# Music App
-
 A Flutter-based music application designed to provide a seamless user experience for managing and playing music. This project emphasizes a clean architecture, robust state management, and efficient API integration.
 
 ## Features
