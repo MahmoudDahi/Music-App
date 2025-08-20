@@ -19,6 +19,7 @@ class AppTheme {
       enabledBorder: _border(Pallete.borderColor),
       focusedBorder: _border(Pallete.gradient2),
       errorBorder: _border(Pallete.errorColor),
+      focusedErrorBorder: _border(Pallete.errorColor),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Pallete.backgroundColor,

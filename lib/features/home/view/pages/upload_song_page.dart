@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:client/core/theme/app_pallete.dart';
 import 'package:client/core/widgets/custom_field.dart';
-import 'package:client/core/widgets/loader_widget.dart';
 import 'package:client/features/home/view/widgets/audio_wave.dart';
-import 'package:client/features/home/viewmodel/home_viewmodel.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils.dart';
+import '../../viewmodel/upload_viewmodel.dart';
+import '../widgets/upload_progress_widget.dart';
 
 class UploadSongPage extends ConsumerStatefulWidget {
   const UploadSongPage({super.key});
@@ -55,7 +55,29 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
   @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(
-        homeViewModelProvider.select((value) => value?.isLoading == true));
+        uploadViewModelProvider.select((value) => value?.isLoading == true));
+    final uploadState = ref.watch(uploadViewModelProvider);
+
+    ref.listen(
+      uploadViewModelProvider,
+      (previous, next) {
+        if (next == null) return;
+
+        if (next.error != null) {
+          showSnakeBar(
+            context: context,
+            content: next.error!,
+            color: Pallete.errorColor,
+          );
+        } else if (!next.isLoading && next.data != null) {
+          showSnakeBar(
+            context: context,
+            content: 'Upload Success!',
+            color: Pallete.greenColor,
+          );
+        }
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('Upload Song'),
@@ -65,7 +87,7 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
               if (formKey.currentState!.validate() &&
                   selectedImageFile != null &&
                   selectedSongFile != null) {
-                ref.read(homeViewModelProvider.notifier).uploadSong(
+                ref.read(uploadViewModelProvider.notifier).uploadSong(
                       selectedAudio: selectedSongFile!,
                       selectedImage: selectedImageFile!,
                       songName: songNameController.text,
@@ -87,7 +109,7 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
         ],
       ),
       body: isLoading
-          ? const LoaderWidget()
+          ? UploadProgressWidget(state: uploadState!)
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),

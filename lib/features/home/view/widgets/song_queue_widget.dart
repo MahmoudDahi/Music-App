@@ -9,9 +9,9 @@ class SongQueueWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final songsInQueue =
-        ref.watch(currentSongNitifierProvider.notifier).getSongQueue();
-    final songNotifier = ref.watch(currentSongNitifierProvider.notifier);
+    final currentSong = ref.watch(currentSongNitifierProvider);
+    final songNotifier = ref.read(currentSongNitifierProvider.notifier);
+    final songsInQueue = songNotifier.getSongQueue();
 
     return Scaffold(
       backgroundColor: Pallete.backgroundColor,
@@ -24,9 +24,8 @@ class SongQueueWidget extends ConsumerWidget {
         itemBuilder: (context, index) {
           final song = songsInQueue[index];
           return ListTile(
-            tileColor: songNotifier.getCurrentSongIndex() == index
-                ? hexToColor(song.hex_code)
-                : null,
+            tileColor:
+                song.id == currentSong?.id ? hexToColor(song.hex_code) : null,
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(4),
               child: Image.network(

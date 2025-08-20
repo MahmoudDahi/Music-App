@@ -94,7 +94,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                               hintText: 'Name', controller: nameController),
                           const SizedBox(height: 15),
                           CustomField(
-                              hintText: 'Email', controller: emailController),
+                            hintText: 'Email',
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
                           const SizedBox(height: 15),
                           CustomField(
                             hintText: 'Password',

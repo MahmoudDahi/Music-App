@@ -1,15 +1,11 @@
-import 'dart:io';
-
 import 'package:client/core/providers/current_user_notifier.dart';
 import 'package:client/features/home/model/favorite_model.dart';
 import 'package:client/features/home/repositories/home_local_repository.dart';
 import 'package:client/features/home/repositories/home_remote_repository.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../core/utils.dart';
 import '../model/song_model.dart';
 
 part 'home_viewmodel.g.dart';
@@ -55,34 +51,6 @@ class HomeViewModel extends _$HomeViewModel {
     _homeRemoteRepository = ref.watch(homeRemoteRepositoryProvider);
     _homeLocalRepository = ref.watch(homeLocalRepositoryProvider);
     return null;
-  }
-
-  Future<void> uploadSong({
-    required File selectedAudio,
-    required File selectedImage,
-    required String songName,
-    required String artist,
-    required Color selectedColor,
-  }) async {
-    state = const AsyncValue.loading();
-
-    final res = await _homeRemoteRepository.uploadSong(
-      selectImage: selectedImage,
-      selectSong: selectedAudio,
-      artist: artist,
-      songName: songName,
-      color: rgbToHex(selectedColor),
-      token: ref.read(currentUserNotifierProvider)!.token,
-    );
-
-    switch (res) {
-      case Left(value: final l):
-        state = AsyncValue.error(l.message, StackTrace.current);
-        break;
-      case Right(value: final r):
-        state = AsyncValue.data(r);
-        break;
-    }
   }
 
   Future<void> favoriteSongUser({

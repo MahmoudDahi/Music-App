@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'current_user_notifier.dart';
+part of 'upload_viewmodel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentUserNotifierHash() =>
-    r'b55b58885ad9139e645d21f0d59d1b13b5563b3b';
+String _$uploadViewModelHash() => r'b6cc28e910dbe82d136d51f0d8bbe86ed4a658a4';
 
-/// See also [CurrentUserNotifier].
-@ProviderFor(CurrentUserNotifier)
-final currentUserNotifierProvider =
-    NotifierProvider<CurrentUserNotifier, UserModel?>.internal(
-  CurrentUserNotifier.new,
-  name: r'currentUserNotifierProvider',
+/// See also [UploadViewModel].
+@ProviderFor(UploadViewModel)
+final uploadViewModelProvider =
+    AutoDisposeNotifierProvider<UploadViewModel, UploadState?>.internal(
+  UploadViewModel.new,
+  name: r'uploadViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$currentUserNotifierHash,
+      : _$uploadViewModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentUserNotifier = Notifier<UserModel?>;
+typedef _$UploadViewModel = AutoDisposeNotifier<UploadState?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

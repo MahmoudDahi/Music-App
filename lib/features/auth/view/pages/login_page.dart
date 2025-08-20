@@ -85,7 +85,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                           const SizedBox(height: 30),
                           CustomField(
-                              hintText: 'Email', controller: emailController),
+                            hintText: 'Email',
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
                           const SizedBox(height: 15),
                           CustomField(
                             hintText: 'Password',

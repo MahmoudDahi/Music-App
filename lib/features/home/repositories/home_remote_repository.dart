@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 part 'home_remote_repository.g.dart';
 
@@ -17,6 +18,7 @@ HomeRemoteRepository homeRemoteRepository(Ref ref) {
 }
 
 class HomeRemoteRepository {
+  final Dio _dio = Dio();
   Future<Either<AppFailure, String>> uploadSong({
     required File selectImage,
     required File selectSong,
@@ -24,31 +26,29 @@ class HomeRemoteRepository {
     required String songName,
     required String color,
     required String token,
+    required void Function(int sent, int total)? onProgress,
   }) async {
     try {
-      final request = http.MultipartRequest(
-          'POST', Uri.parse('${ServerConstant.serverURL}/song/upload'));
+      final formData = FormData.fromMap({
+        'song': await MultipartFile.fromFile(selectSong.path),
+        'thumbnail': await MultipartFile.fromFile(selectImage.path),
+        'artist': artist,
+        'song_name': songName,
+        'color': color,
+      });
 
-      request
-        ..files.addAll([
-          await http.MultipartFile.fromPath('song', selectSong.path),
-          await http.MultipartFile.fromPath('thumbnail', selectImage.path),
-        ])
-        ..fields.addAll({
-          'artist': artist,
-          'song_name': songName,
-          'color': color,
-        })
-        ..headers.addAll({
-          'x-auth-token': token,
-        });
-      final response = await request.send();
+      final response = await _dio.post(
+        '${ServerConstant.serverURL}/song/upload',
+        data: formData,
+        options: Options(
+          headers: {'x-auth-token': token},
+        ),
+        onSendProgress: onProgress,
+      );
       if (response.statusCode != 201) {
-        return Left(
-          AppFailure(response.stream.toString()),
-        );
+        return Left(AppFailure(response.data.toString()));
       }
-      return Right(response.stream.toString());
+      return Right(response.data.toString());
     } catch (e) {
       return Left(AppFailure(e.toString()));
     }
